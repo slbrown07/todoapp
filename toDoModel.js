@@ -1,7 +1,7 @@
 let myLists = new listCollection();
 
 function listCollection() {
-   this.list = ['General'];
+   this.list = ['General', 'Errand', 'Shopping'];
    this.add = function(listName){
         this.collection.push(new (listName));
    } 

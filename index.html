@@ -17,25 +17,28 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous" defer></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous" defer></script>
-    <script src="toDoModel.js" defer></script>
-    <script src="todoAction.js" defer></script>
+    <script src="toDoApp.js" defer></script>
   </head>
   <body>
       <div class="jumbotron jumbotron-fluid">
           <div class="container">
             <h1 class="display-4">To Do</h1>
             <div class="lead" id="myCurDate">Date: </date></div>
-            <div class="form-group">
-              <label for="toDoList" class="form-control-lg">Select List</label>
-              <select class="form-control" id="toDoList">
-                <option id="listOptions">1</option>
-              </select>
+            <form>
+              <label for="toDoList">Select List:  </label>
+              <select name="toDoList" id="listOptions"></select>
+            </form>
               <div class="container">
-                <button type="button" class="btn btn-primary" id="listCreate">Create</button>
-                <button type="button" class="btn btn-danger" id="listDelete">Delete</button>
+                <button type="button" class="btn btn-danger" id="listDelete" onclick="deleteList()">Delete List</button>
+                <button type="button" class="btn btn-primary" id="listCreate" onclick="unHide()">Create List</button>
+                <span id="inputCont" style="display: none">
+                  <input type="text" id="listInput" placeholder="Enter New List"/>
+                  <span id="createButton" onclick="createList()"><i class="far fa-plus-square"></i></span>
+                </span>
               </div>
             </div>
         </div>
+        
 
     </body>
 </html>
