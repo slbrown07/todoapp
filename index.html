@@ -29,8 +29,13 @@
               <select name="toDoList" id="listOptions"></select>
             </form>
               <div class="container">
-                <button type="button" class="btn btn-danger" id="listDelete" onclick="deleteList()">Delete List</button>
-                <button type="button" class="btn btn-primary" id="listCreate" onclick="unHide()">Create List</button>
+                <button type="button" class="btn btn-danger" id="listDelete" onclick="deleteList()">Delete</button>
+                <button type="button" class="btn btn-success" onclick="unHideEdit()">Edit</button>
+                <span id="editCont" style="display: none">
+                  <input type="text" id="editInput"/>
+                  <span id="editButton" alt="Edit" onclick="editList()"><i class="far fa-edit"></i></span>
+                </span>
+                <button type="button" class="btn btn-primary" id="listCreate" onclick="unHide()">Create</button>
                 <span id="inputCont" style="display: none">
                   <input type="text" id="listInput" placeholder="Enter New List"/>
                   <span id="createButton" onclick="createList()"><i class="far fa-plus-square"></i></span>
@@ -38,7 +43,21 @@
               </div>
             </div>
         </div>
-        
+    <form>
+        <div id="taskButtons">
+          <label for taskInput>Enter New Task:</label>
+          <input type="text" id="taskInput"/>
+          <span id="createButton" data-toggle="Create" data-placement="top" 
+            title="Create" onclick="createTask()">
+            <i class="far fa-plus-square"></i></span>
+          </span>
+          <div>
+            <button id="deleteCompleted" onclick="deleteCompleted()">Delete Completed Tasks</button>
+          </div>
+        </div>
+        <div id="taskList"></div>
+
+    </form>
 
     </body>
 </html>
