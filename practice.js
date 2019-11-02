@@ -6,8 +6,6 @@ listArray.push('Errands');
 console.log(listArray);
 let test1 = document.getElementById("test1").checked;
 console.log(test1);
-let test2 = document.getElementById("test2").checked;
-console.log(test2);
 
 function unHide() {
     document.getElementById("listInput").style.display = "block";
@@ -17,6 +15,20 @@ function createList() {
     listName = document.getElementById("listInput").value;
     listArray.push(listName);
     console.log(listArray);
+}
+let testArray = [];
+function enterList(event) {
+    let listTest;
+
+    switch(event.which){
+        case 13:
+            listTest = document.getElementById("test3").value;
+            
+            testArray.push(listTest);
+            console.log(testArray);
+            document.getElementById("test3").value = "";
+            break;
+    } 
 }
 
 

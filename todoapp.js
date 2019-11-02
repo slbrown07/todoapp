@@ -2,27 +2,51 @@ let myDate = new Date();
 let listArray = ['General'];
 let taskArray = [];
 
-console.log(listArray);
-console.log(taskArray);
-
 (function () {
     document.getElementById('myCurDate').innerHTML += myDate.toDateString();
     listCollections();
 })();
 
+function unHideCreate() {
+    document.getElementById('createDiv').style.display = "inline";
+}
+
+function enterCreate(event) {
+    switch(event.which) {
+        case 13:
+            createList();
+            break;
+    }
+}
+
 function createList() {     
     let listName = document.getElementById("listInput").value;
-    listArray.unshift(listName);
+    listArray.push(listName);
     document.getElementById("listInput").value = "";
-    document.getElementById("inputCont").style.display = "none";
+    document.getElementById("createDiv").style.display = "none";
     listCollections();
 }
 
+function unHideEdit() {
+    listEdit = document.getElementById("listOptions").value;
+    document.getElementById("editInput").value = listArray[listEdit];
+    document.getElementById('editSpan').style.display = "inline";
+}
+
+function enterEdit(event) {
+    switch(event.which) {
+        case 13:
+            editList();
+            break;
+    }
+}
+
 function editList() {
-    renameItem = document.getElementById("renameInput").value;
-    listArray[editItem] = renameItem;
-    document.getElementById("renameInput").value = "";
-    document.getElementById("renameCont").style.display = "none";
+    let listId = document.getElementById("listOptions").value;
+    let renameItem = document.getElementById("editInput").value;
+    listArray[listId] = renameItem;
+    document.getElementById("editInput").value = "";
+    document.getElementById("editSpan").style.display = "none";
     listCollections();
 }
 
@@ -34,38 +58,46 @@ function deleteList() {
 
 function listCollections(){
     document.getElementById("listOptions").innerHTML = `<select name="toDoList" id="listOptions"></select>`;
-    for (let i=0;i<listArray.length; i++) {
+    for (let i=listArray.length-1; i>=0; i--) {
         document.getElementById("listOptions").innerHTML += `<option value="${[i]}">${listArray[i]}</option>`;      
     }
 }
 
-function unHide() {
-    document.getElementById('inputCont').style.display = "inline";
-}
-
-function unHideEdit() {
-    listEdit = document.getElementById("listOptions").value;
-    document.getElementById("editInput").value = listArray[listEdit];
-    document.getElementById('editCont').style.display = "inline";
+function enterNewTask(event) {
+    switch(event.which) {
+        case 13:
+            createTask();
+            break;
+    }
 }
 
 function createTask() {
     let taskObject = {
         listName: "",
         taskName: "",
-        finishBox: "No"
+        completeBox: "No"
     }
     let listId = document.getElementById("listOptions").value;     
     taskObject.listName = listArray[listId];
-    taskObject.taskName = document.getElementById("taskInput").value;
+    taskObject.taskName = document.getElementById("taskOption").value;
     taskArray.push(taskObject);
-    document.getElementById("taskInput").value = "";
+    document.getElementById("taskOption").value = "";
     taskCollection();
 }
 
+function enterEditTask(event,taskIndex) {
+    switch(event.which) {
+        case 13:
+            editTask(taskIndex);
+            break;
+    }
+}
+
 function editTask(taskIndex) {
-    renameTask = document.getElementById(`editTask${taskIndex}`).value;
-    taskArray[taskIndex] = renameTask;
+    renameTask = document.getElementById(`taskName${taskIndex}`).value;
+    console.log(renameTask);
+    taskArray[taskIndex].taskName = renameTask;
+    console.log(taskArray);
     taskCollection();
 }
 
@@ -75,19 +107,18 @@ function deleteTask(taskIndex) {
 }
 
 function taskCollection(){
-    document.getElementById("taskList").innerHTML = `<ul id="taskList"></ul>`;
+    document.getElementById("taskItem").innerHTML = `<ul id="taskItem"></ul>`;
     let currentList = document.getElementById("listOptions").value;
     for (let i=0;i<taskArray.length; i++) {
         if (taskArray[i].listName==listArray[currentList]) {
-            document.getElementById("taskList").innerHTML += 
+            document.getElementById("taskItem").innerHTML += 
             `<li>
-                <input type="checkbox"/>
-                <input type="test" value="${taskArray[i].taskName}"/>
-                <span data-toggle="Edit" data-placement="top" title="Edit" onclick="editTask(${i})">
-                    <i class="far fa-edit"></i></span>
-                <span data-toggle="Delete" data-placement="top" title="Delete" onclick="deleteTask(${i})">  
-                    <i class="far fa-trash-alt"></i></span>
-                </li>`;      
+                <input type="checkbox" id="check${i}"/>
+                <input type="text" class="taskDesc" id="taskName${i}" 
+                    value="${taskArray[i].taskName}" onkeypress="enterEditTask(event, ${i})"/>
+                <span onclick="editTask(${i})"><i class="far fa-edit"></i></span>
+                <span onclick="deleteTask(${i})"><i class="far fa-trash-alt"></i></span>
+            </li>`;      
         }
         
     }

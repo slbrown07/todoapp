@@ -14,50 +14,52 @@
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous" defer></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous" defer></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous" defer></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous" defer></script> -->
+    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous" defer></script> -->
     <script src="toDoApp.js" defer></script>
   </head>
   <body>
       <div class="jumbotron jumbotron-fluid">
-          <div class="container">
-            <h1 class="display-4">To Do</h1>
-            <div class="lead" id="myCurDate">Date: </date></div>
-            <form>
-              <label for="toDoList">Select List:  </label>
-              <select name="toDoList" id="listOptions"></select>
-            </form>
-              <div class="container">
-                <button type="button" class="btn btn-danger" id="listDelete" onclick="deleteList()">Delete</button>
-                <button type="button" class="btn btn-success" onclick="unHideEdit()">Edit</button>
-                <span id="editCont" style="display: none">
-                  <input type="text" id="editInput"/>
-                  <span id="editButton" alt="Edit" onclick="editList()"><i class="far fa-edit"></i></span>
-                </span>
-                <button type="button" class="btn btn-primary" id="listCreate" onclick="unHide()">Create</button>
-                <span id="inputCont" style="display: none">
-                  <input type="text" id="listInput" placeholder="Enter New List"/>
-                  <span id="createButton" onclick="createList()"><i class="far fa-plus-square"></i></span>
-                </span>
-              </div>
-            </div>
+        <div class="container">
+          <h1 class="display-4">To Do</h1>
+          <div class="lead" id="myCurDate">Date: </date></div>
+          <form class="listForm">
+            <label for="toDoList">Select List:  </label>
+            <select name="toDoList" id="listOptions"></select>
+          </form>
         </div>
-    <form>
-        <div id="taskButtons">
-          <label for taskInput>Enter New Task:</label>
-          <input type="text" id="taskInput"/>
-          <span id="createButton" data-toggle="Create" data-placement="top" 
-            title="Create" onclick="createTask()">
-            <i class="far fa-plus-square"></i></span>
-          </span>
-          <div>
-            <button id="deleteCompleted" onclick="deleteCompleted()">Delete Completed Tasks</button>
+        <div class="listCont">
+          <div id="createCont">
+            <button type="button" class="btn btn-primary" onclick="unHideCreate()">Create List</button>
+            <div id="createDiv" style="display: none">
+              <input type="text" id="listInput" placeholder="Enter New List" onkeypress="enterCreate(event, this.value)"/>
+              <span onclick="createList()"><i class="far fa-plus-square"></i></span>
+            </div>
+          </div>
+          <div id="deleteCont">
+            <button type="button" class="btn btn-danger" onclick="deleteList()">Delete List</button>
+          </div>
+          <div id="editCont">
+            <button type="button" class="btn btn-success" onclick="unHideEdit()">Edit List</button>
+            <span id="editSpan" style="display: none">
+              <input type="text" id="editInput" onkeypress="enterEdit(event, this.value)"/>
+              <span onclick="editList()"><i class="far fa-edit"></i></span>
+            </span>
           </div>
         </div>
-        <div id="taskList"></div>
-
-    </form>
-
-    </body>
+      </div>
+      <div class="taskCont">
+        <div id="createTask">
+          <input type="text" id="taskOption" placeholder="Enter New Task" onkeypress="enterNewTask(event, this.value)"/>
+          <span id="createButton" onclick="createTask()"><i class="far fa-plus-square"></i></span>
+        </div>
+        <div>
+          <button id="deleteCompleted" onclick="deleteCompleted()">Delete Completed Tasks</button>
+        </div>
+      </div>
+      <div id="taskList">
+        <ul id="taskItem"></ul>
+      </div>
+  </body>
 </html>
