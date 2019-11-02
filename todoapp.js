@@ -52,9 +52,15 @@ function editList() {
 }
 
 function deleteList() {
-    deleteItem = document.getElementById("listOptions").value;
+    let deleteItem = document.getElementById("listOptions").value;
+    for (let i=0; i<taskArray.length; i++) {
+        if (taskArray[i].listIndex == deleteItem) {
+            taskArray.splice(i,1);
+        }
+    }  
     listArray.splice(deleteItem,1);
-    listCollections();
+    taskCollection();
+    listCollection();
 }
 
 function listCollection(){
@@ -137,11 +143,9 @@ function taskCollection(){
 }
  function deleteCompleted() {
     let listValue = document.getElementById("listOptions").value;
-    console.log(listValue);
     for (let i=0; i<taskArray.length; i++) {
-        if ( listArray[listIndex] == taskArray[i].listName && taskArray[i].completeBox == true) {
+        if (taskArray[i].listIndex ==listValue && taskArray[i].completeBox == true) {
             taskArray.splice(i,1);
-            console.log(i);
         }
     }  
     taskCollection();
