@@ -4,7 +4,7 @@ let taskArray = [];
 
 (function () {
     document.getElementById('myCurDate').innerHTML += myDate.toDateString();
-    listCollections();
+    listCollection();
 })();
 
 function unHideCreate() {
@@ -24,7 +24,8 @@ function createList() {
     listArray.push(listName);
     document.getElementById("listInput").value = "";
     document.getElementById("createDiv").style.display = "none";
-    listCollections();
+    listCollection();
+    taskCollection();
 }
 
 function unHideEdit() {
@@ -47,7 +48,7 @@ function editList() {
     listArray[listId] = renameItem;
     document.getElementById("editInput").value = "";
     document.getElementById("editSpan").style.display = "none";
-    listCollections();
+    listCollection();
 }
 
 function deleteList() {
@@ -56,7 +57,7 @@ function deleteList() {
     listCollections();
 }
 
-function listCollections(){
+function listCollection(){
     document.getElementById("listOptions").innerHTML = `<select name="toDoList" id="listOptions"></select>`;
     for (let i=listArray.length-1; i>=0; i--) {
         document.getElementById("listOptions").innerHTML += `<option value="${[i]}">${listArray[i]}</option>`;      
@@ -106,27 +107,43 @@ function deleteTask(taskIndex) {
 
 function checkStatus(checkIndex) {
     let checkValue = document.getElementById(`check${checkIndex}`).checked;
-    console.log(checkValue);
     taskArray[checkIndex].completeBox = checkValue;
-    console.log(taskArray);
 }
 function taskCollection(){
     document.getElementById("taskItem").innerHTML = `<ul id="taskItem"></ul>`;
     let currentList = document.getElementById("listOptions").value;
     for (let i=0;i<taskArray.length; i++) {
         if (taskArray[i].listName==listArray[currentList]) {
-            document.getElementById("taskItem").innerHTML += 
-            `<li>
-                <input type="checkbox" id="check${i}" onclick="checkStatus(${i})"/>
-                <input type="text" class="taskDesc" id="taskName${i}" 
-                    value="${taskArray[i].taskName}" onkeypress="enterEditTask(event, ${i})"/>
-                <span onclick="editTask(${i})"><i class="far fa-edit"></i></span>
-                <span onclick="deleteTask(${i})"><i class="far fa-trash-alt"></i></span>
-            </li>`;      
-        }
-        
+            if (taskArray[i].completeBox == true) {
+                document.getElementById("taskItem").innerHTML += 
+                `<li>
+                    <input type="checkbox" id="check${i}" checked onclick="checkStatus(${i})"/>
+                    <input type="text" class="taskDesc" id="taskName${i}" 
+                        value="${taskArray[i].taskName}" onkeypress="enterEditTask(event, ${i})"/>
+                    <span onclick="editTask(${i})"><i class="far fa-edit"></i></span>
+                    <span onclick="deleteTask(${i})"><i class="far fa-trash-alt"></i></span>
+                </li>`;
+            } else {
+                document.getElementById("taskItem").innerHTML += 
+                `<li>
+                    <input type="checkbox" id="check${i}" onclick="checkStatus(${i})"/>
+                    <input type="text" class="taskDesc" id="taskName${i}" 
+                        value="${taskArray[i].taskName}" onkeypress="enterEditTask(event, ${i})"/>
+                    <span onclick="editTask(${i})"><i class="far fa-edit"></i></span>
+                    <span onclick="deleteTask(${i})"><i class="far fa-trash-alt"></i></span>
+                </li>`;  
+            }    
+        }       
     }
 }
  function deleteCompleted() {
-
+    let listValue = document.getElementById("listOptions").value;
+    console.log(listValue);
+    for (let i=0; i<taskArray.length; i++) {
+        if ( listArray[listValue] == taskArray[i].listName && taskArray[i].completeBox == true) {
+            taskArray.splice(i,1);
+            console.log(i);
+        }
+    }  
+    taskCollection();
  }
