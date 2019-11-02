@@ -74,12 +74,11 @@ function enterNewTask(event) {
 
 function createTask() {
     let taskObject = {
-        listName: "",
+        listIndex: "",
         taskName: "",
         completeBox: false
-    }
-    let listId = document.getElementById("listOptions").value;     
-    taskObject.listName = listArray[listId];
+    }     
+    taskObject.listIndex = document.getElementById("listOptions").value;
     taskObject.taskName = document.getElementById("taskOption").value;
     taskArray.push(taskObject);
     document.getElementById("taskOption").value = "";
@@ -113,7 +112,7 @@ function taskCollection(){
     document.getElementById("taskItem").innerHTML = `<ul id="taskItem"></ul>`;
     let currentList = document.getElementById("listOptions").value;
     for (let i=0;i<taskArray.length; i++) {
-        if (taskArray[i].listName==listArray[currentList]) {
+        if (taskArray[i].listIndex==currentList) {
             if (taskArray[i].completeBox == true) {
                 document.getElementById("taskItem").innerHTML += 
                 `<li>
@@ -140,7 +139,7 @@ function taskCollection(){
     let listValue = document.getElementById("listOptions").value;
     console.log(listValue);
     for (let i=0; i<taskArray.length; i++) {
-        if ( listArray[listValue] == taskArray[i].listName && taskArray[i].completeBox == true) {
+        if ( listArray[listIndex] == taskArray[i].listName && taskArray[i].completeBox == true) {
             taskArray.splice(i,1);
             console.log(i);
         }
