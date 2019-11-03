@@ -1,11 +1,48 @@
 let myDate = new Date();
 let listArray = ['General'];
 let taskArray = [];
+let localArray = [];
 
 (function () {
     document.getElementById('myCurDate').innerHTML += myDate.toDateString();
+    let listString = localStorage.getItem('toDoList');
+    let taskString = localStorage.getItem('toDoTask');
+    if (listString != null) {
+        listArray = listString.split(',');
+    }
+    if (taskString != null) {
+        localArray = taskString.split(',');
+        taskToObject();
+    }
     listCollection();
+    taskCollection();
 })();
+
+function taskToLocal() {
+    for (let i=0; i<taskArray.length; i++) {
+        if (taskArray[i].listIndex != "Delete") {
+            localArray.push(taskArray[i].listIndex);
+            localArray.push(taskArray[i].taskName);
+            localArray.push(taskArray[i].completeBox);
+        }
+    }
+    localStorage.setItem('toDoTask', localArray);
+    localArray = [];
+}
+
+function taskToObject() {
+    let x = 0; 
+    while (x<localArray.length) {
+        let taskObject = {listIndex: "", taskName: "", completeBox: false};
+        taskObject.listIndex = localArray[x];
+        x++;
+        taskObject.taskName = localArray[x];
+        x++;
+        taskObject.completeBox = localArray[x];
+        x++;
+        taskArray.push(taskObject);
+    }
+}
 
 function unHideCreate() {
     document.getElementById('createDiv').style.display = "inline";
@@ -24,6 +61,7 @@ function createList() {
     listArray.push(listName);
     document.getElementById("listInput").value = "";
     document.getElementById("createDiv").style.display = "none";
+    localStorage.setItem("toDoList", listArray);
     listCollection();
     taskCollection();
 }
@@ -48,6 +86,7 @@ function editList() {
     listArray[listId] = renameItem;
     document.getElementById("editInput").value = "";
     document.getElementById("editSpan").style.display = "none";
+    localStorage.setItem("toDoList", listArray);
     listCollection();
 }
 
@@ -55,10 +94,12 @@ function deleteList() {
     let deleteItem = document.getElementById("listOptions").value;
     for (let i=0; i<taskArray.length; i++) {
         if (taskArray[i].listIndex == deleteItem) {
-            taskArray.splice(i,1);
+            taskArray[i].listIndex = 'Delete';
         }
     }  
     listArray.splice(deleteItem,1);
+    localStorage.setItem("toDoList", listArray);
+    taskToLocal();
     taskCollection();
     listCollection();
 }
@@ -88,6 +129,7 @@ function createTask() {
     taskObject.taskName = document.getElementById("taskOption").value;
     taskArray.push(taskObject);
     document.getElementById("taskOption").value = "";
+    taskToLocal();
     taskCollection();
 }
 
@@ -102,17 +144,20 @@ function enterEditTask(event,taskIndex) {
 function editTask(taskIndex) {
     renameTask = document.getElementById(`taskName${taskIndex}`).value;
     taskArray[taskIndex].taskName = renameTask;
+    taskToLocal();
     taskCollection();
 }
 
 function deleteTask(taskIndex) {
     taskArray.splice(taskIndex,1);
+    taskToLocal();
     taskCollection();
 }
 
 function checkStatus(checkIndex) {
     let checkValue = document.getElementById(`check${checkIndex}`).checked;
     taskArray[checkIndex].completeBox = checkValue;
+    taskToLocal();
 }
 function taskCollection(){
     document.getElementById("taskItem").innerHTML = `<ul id="taskItem"></ul>`;
@@ -141,12 +186,14 @@ function taskCollection(){
         }       
     }
 }
+
  function deleteCompleted() {
     let listValue = document.getElementById("listOptions").value;
     for (let i=0; i<taskArray.length; i++) {
         if (taskArray[i].listIndex ==listValue && taskArray[i].completeBox == true) {
             taskArray.splice(i,1);
         }
-    }  
+    } 
+    taskToLocal(); 
     taskCollection();
  }
